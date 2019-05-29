@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 7000;
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const io = require("socket.io").listen(http);
 
 const chatrooms = ["test", "maybe"];
 
