@@ -12,7 +12,8 @@ class App extends React.Component {
       longitude: 0,
       compareLatitude: 0,
       compareLongitude: 0,
-      miles: 0
+      miles: 0,
+      button: true
     };
   }
   componentDidMount = () => {
@@ -45,12 +46,26 @@ class App extends React.Component {
     let miles = Math.sqrt(milesSquared) / 0.0145;
     this.setState({ miles });
   };
+  buttonClickHandler = () => {
+    this.setState({ button: !this.state.button });
+  };
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Layout />
+          {this.state.button ? (
+            <div>
+              {" "}
+              <button onClick={this.buttonClickHandler}>Test2</button>
+              <Layout room={"test"} />
+            </div>
+          ) : (
+            <div>
+              <button onClick={this.buttonClickHandler}>Test</button>
+              <Layout room={"test2"} />
+            </div>
+          )}
           {this.state.display}
           <input onChange={this.latChangeHandler} placeholder="lat" />
           <input onChange={this.lonChangeHandler} placeholder="lon" />

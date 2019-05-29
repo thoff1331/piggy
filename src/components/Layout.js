@@ -1,42 +1,33 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-// const socketUrl = "172.31.99.90:8080";
+const socket = io.connect("http://localhost:7000/chat");
 
 class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: null,
       username: "",
       message: "",
       messages: []
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.initSocket();
   }
-  sendMessage = ev => {
-    console.log("helloooo");
-    this.state.socket.emit("SEND_MESSAGE", {
-      author: this.state.username,
-      message: this.state.message
-    });
-    this.setState({ message: "" });
-    this.state.socket.on("RECEIVE_MESSAGE", data => {
-      let { messages } = this.state;
-      messages.push(data);
-      this.setState({ messages });
-    });
-  };
+
   initSocket = () => {
-    const socket = io(socketUrl);
-    socket.on("connect", () => {
-      console.log("connected");
+    socket.on("connected", msg => {
+      console.log(msg);
     });
-    this.setState({ socket });
+
+    socket.emit("joinRoom", this.props.room);
+    socket.on("newUser", res => console.log(res));
+    socket.on("err", err => console.log(err));
+    socket.on("success", res => console.log(res));
   };
 
   render() {
+    console.log(socket);
     return (
       <div className="container">
         <div className="card-title">Global Chat</div>
