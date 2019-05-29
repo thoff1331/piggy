@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:7000/chat", {
-  path: "/myapp/socket.io"
-});
+const socket = io.connect("/chat");
 
 class Layout extends Component {
   constructor(props) {

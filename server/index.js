@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 7000;
 const http = require("http").createServer();
-const io = require("socket.io")(http, { path: "/myapp/socket.io" });
+const io = require("socket.io")(http);
 
 const chatrooms = ["test", "test2"];
 
