@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-const socket = io.connect("https://testymentors.herokuapp.com:7000/chat");
+const socket = io.connect("https://testymentors.herokuapp.com/:7000/chat");
 
 class Layout extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class Layout extends Component {
       messages: []
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     this.initSocket();
   }
 
@@ -35,6 +35,7 @@ class Layout extends Component {
     this.setState({ message: "" });
   };
   render() {
+    console.log(socket);
     return (
       <div className="container">
         <div className="card-title">Global Chat</div>

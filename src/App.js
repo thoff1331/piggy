@@ -57,13 +57,13 @@ class App extends React.Component {
           {this.state.button ? (
             <div>
               {" "}
-              <button onClick={this.buttonClickHandler}>Test2</button>
+              <button onClick={this.buttonClickHandler}>Maybe</button>
               <Layout room={"test"} />
             </div>
           ) : (
             <div>
               <button onClick={this.buttonClickHandler}>Test</button>
-              <Layout room={"test2"} />
+              <Layout room={"maybe"} />
             </div>
           )}
           {this.state.display}
