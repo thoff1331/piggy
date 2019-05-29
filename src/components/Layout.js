@@ -19,23 +19,30 @@ class Layout extends Component {
     socket.on("connected", msg => {
       console.log(msg);
     });
-
     socket.emit("joinRoom", this.props.room);
-    socket.on("newUser", res => console.log(res));
     socket.on("err", err => console.log(err));
     socket.on("success", res => console.log(res));
+    socket.on("newUser", res => console.log(res));
+    socket.on("msg", res => {
+      this.setState({ messages: [...this.state.messages, res] });
+    });
   };
-
+  sendMessage = () => {
+    socket.emit("newMsg", {
+      user: this.state.username,
+      message: this.state.message
+    });
+    this.setState({ message: "" });
+  };
   render() {
-    console.log(socket);
     return (
       <div className="container">
         <div className="card-title">Global Chat</div>
         <div className="messages">
-          {this.state.messages.map(message => {
+          {this.state.messages.map((message, index) => {
             return (
-              <div>
-                {message.author}: {message.message}
+              <div key={index}>
+                {message.user}: {message.message}
               </div>
             );
           })}
@@ -51,6 +58,7 @@ class Layout extends Component {
           <input
             type="text"
             placeholder="Message"
+            value={this.state.message}
             onChange={ev => this.setState({ message: ev.target.value })}
           />
           <br />

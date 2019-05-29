@@ -6,24 +6,24 @@ const io = require("socket.io")(http);
 
 const chatrooms = ["test", "test2"];
 
-// io.on("connection", socket => {
-//   socket.emit("connected", "Hello and welcome");
-//   console.log("New Client is connected");
-// });
 io.of("/chat").on("connection", socket => {
   socket.emit("connected", "Hello and welcome");
   console.log("New Client is connected");
-
   socket.on("joinRoom", room => {
     if (chatrooms.includes(room)) {
       socket.join(room);
-      io.of("./chat")
+      io.of("/chat")
         .in(room)
         .emit("newUser", `new User has joined ${room}`);
-      return socket.emit("success", `You joined ${room}`);
+      socket.emit("success", `You joined ${room}`);
     } else {
       return socket.emit("err", `No room named ${room}`);
     }
+    socket.on("newMsg", data => {
+      io.of("/chat")
+        .in(room)
+        .emit("msg", data);
+    });
   });
 });
 
