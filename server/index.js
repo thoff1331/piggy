@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const PORT = 7000;
-const server = require("https").Server(app);
-const io = require("socket.io")(server);
+const https = require("https").createServer();
+const io = require("socket.io")(https);
 
 const chatrooms = ["test", "test2"];
 
@@ -24,11 +24,10 @@ io.of("/chat").on("connection", socket => {
         .in(room)
         .emit("msg", data);
     });
-    socket.disconnect();
   });
 });
 
-server.listen(PORT, () => {
+https.listen(PORT, () => {
   console.log("socket server is listening");
 });
 
