@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-const socketUrl = "172.31.99.90:8080";
+// const socketUrl = "172.31.99.90:8080";
 
 class Layout extends Component {
   constructor(props) {
