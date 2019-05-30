@@ -6,9 +6,9 @@ const io = require("socket.io")(http);
 const path = require("path");
 
 const chatrooms = ["test", "maybe"];
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/../src/index.js");
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/../src/index.js");
+// });
 
 app.use(express.static(`${__dirname}/../build`));
 
