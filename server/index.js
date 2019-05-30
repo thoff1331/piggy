@@ -11,12 +11,22 @@ io.of("/chat").on("connection", socket => {
   console.log("New Client is connected");
   socket.on("joinRoom", room => {
     if (chatrooms.includes(room)) {
-      socket.join(room);
+      socket.join(room, () => {
+        console.log(socket.rooms);
+      });
       io.of("/chat")
         .in(room)
         .emit("newUser", `new User has joined ${room}`);
       socket.emit("success", `You joined ${room}`);
     } else {
+      // chatrooms.push(room);
+      // socket.join(room, () => {
+      //   console.log(socket.rooms);
+      // });
+      // io.of("/chat")
+      //   .in(room)
+      //   .emit("newUser", `new User has joined ${room}`);
+      // socket.emit("success", `You joined ${room}`);
       return socket.emit("err", `No room named ${room}`);
     }
   });
