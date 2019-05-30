@@ -15,7 +15,7 @@ class Layout extends Component {
   }
 
   initSocket = () => {
-    const socket = io("https://0.0.0.0:7000/chat");
+    const socket = io("http://localhost:7000/chat");
     socket.on("connected", msg => {
       console.log(msg);
     });
@@ -30,7 +30,7 @@ class Layout extends Component {
     });
   };
   sendMessage = () => {
-    const socket = io("https://0.0.0.0:7000/chat");
+    const socket = io("http://localhost:7000/chat");
     socket.emit("newMsg", {
       room: this.props.room,
       data: {
