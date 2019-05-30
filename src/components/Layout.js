@@ -15,7 +15,7 @@ class Layout extends Component {
   }
 
   initSocket = () => {
-    const socket = io();
+    const socket = io("/");
     socket.on("connected", msg => {
       console.log(msg);
     });
@@ -30,7 +30,7 @@ class Layout extends Component {
     });
   };
   sendMessage = () => {
-    const socket = io();
+    const socket = io("/");
     socket.emit("newMsg", {
       room: this.props.room,
       data: {
