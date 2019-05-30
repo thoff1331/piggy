@@ -3,8 +3,12 @@ const app = express();
 const PORT = 7000 || $PORT;
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const path = require("path");
 
 const chatrooms = ["test", "maybe"];
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "server/index.js");
+});
 
 app.use(express.static(`${__dirname}/../build`));
 
@@ -45,6 +49,10 @@ io.of("/chat").on("connection", socket => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
 });
 
 http.listen(PORT, () => {
