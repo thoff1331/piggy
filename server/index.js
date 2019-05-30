@@ -6,6 +6,8 @@ const io = require("socket.io")(http);
 
 const chatrooms = ["test", "maybe"];
 
+app.use(express.static(`${__dirname}/../build`));
+
 io.of("/chat").on("connection", socket => {
   socket.emit("connected", "Hello and welcome");
   console.log("New Client is connected");
