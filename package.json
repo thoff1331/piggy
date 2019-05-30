@@ -31,5 +31,5 @@
     ]
   },
   "main": "server/index.js",
-  "proxy": "http://157.230.212.208:8000/"
+  "proxy": "http://localhost:8000/"
 }
