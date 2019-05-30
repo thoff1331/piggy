@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-const socket = io.connect("https://testymentors.herokuapp.com/:7000/chat");
 
 class Layout extends Component {
   constructor(props) {
@@ -11,11 +10,12 @@ class Layout extends Component {
       messages: []
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.initSocket();
   }
 
   initSocket = () => {
+    const socket = io();
     socket.on("connected", msg => {
       console.log(msg);
     });
@@ -24,18 +24,34 @@ class Layout extends Component {
     socket.on("success", res => console.log(res));
     socket.on("newUser", res => console.log(res));
     socket.on("msg", res => {
-      this.setState({ messages: [...this.state.messages, res] });
+      if (res.room === this.props.room) {
+        this.setState({ messages: [...this.state.messages, res.data] });
+      }
     });
   };
   sendMessage = () => {
+    const socket = io();
     socket.emit("newMsg", {
-      user: this.state.username,
-      message: this.state.message
+      room: this.props.room,
+      data: {
+        user: this.state.username,
+        message: this.state.message
+      }
     });
     this.setState({ message: "" });
   };
+  // componentWillUnmount() {
+  //   const socket = io("http://localhost:7000/chat", { reconnection: false });
+  //   socket.emit("leave", this.props.room);
+  //   socket.on("left", res => {
+  //     console.log(res);
+  //   });
+  //   socket.on("disconnect", () => {
+  //     socket.disconnect();
+  //   });
+  // }
   render() {
-    console.log(socket);
+    // console.log(socket);
     return (
       <div className="container">
         <div className="card-title">Global Chat</div>

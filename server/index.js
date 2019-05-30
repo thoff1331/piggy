@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 7000;
 const http = require("http").createServer(app);
-const io = require("socket.io").listen(http);
+const io = require("socket.io")(http);
 
 const chatrooms = ["test", "maybe"];
 
@@ -19,11 +19,18 @@ io.of("/chat").on("connection", socket => {
     } else {
       return socket.emit("err", `No room named ${room}`);
     }
-    socket.on("newMsg", data => {
-      io.of("/chat")
-        .in(room)
-        .emit("msg", data);
-    });
+  });
+  socket.on("leave", room => {
+    socket.leave(room);
+    socket.emit("left", `left ${room}`);
+  });
+  socket.on("newMsg", obj => {
+    io.of("/chat")
+      .to(obj.room)
+      .emit("msg", obj);
+  });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
   });
 });
 
