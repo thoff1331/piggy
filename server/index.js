@@ -13,6 +13,7 @@ io.of("/chat").on("connection", socket => {
     if (chatrooms.includes(room)) {
       socket.join(room, () => {
         console.log(socket.rooms);
+        console.log(socket.handshake);
       });
       io.of("/chat")
         .in(room)
